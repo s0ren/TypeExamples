@@ -5,65 +5,75 @@
         static void Main(string[] args)
         {
             Console.Write("What word should be searched for: ");
-            var searchWord = Console.ReadLine();
+            var searchWord = Console.ReadLine()!;
 
             Console.Write("What text should be searched in: ");
             string text = Console.ReadLine()!;
 
-            int count = WordCount(searchWord, text);
-            bool? countState = checkCount(count);
-            if (countState == null)
-            {
-                Console.WriteLine("The searched word doesn't exist in the given text.");
-            }
-            else
-            {
-                Console.WriteLine($"The word ‘{searchWord}’ is found {count} times.");
-                if ((bool)countState)
+            Result<int> count = WordCount(searchWord, text);
+            if (count.Success) {
+                
+                bool? countState = checkCount(count.value);
+                if (countState == null)
                 {
-
-                    Console.Write("Should the search be logged to the User file or the project file?: ");
-                    string saveChoice = Console.ReadLine()!.ToLower();
-                    
-                    while (string.IsNullOrWhiteSpace(saveChoice) || (saveChoice != "user" && saveChoice != "project")) 
+                    Console.WriteLine("The searched word doesn't exist in the given text.");
+                }
+                else
+                {
+                    Console.WriteLine($"The word ‘{searchWord}’ is found {count.value} times.");
+                    if ((bool)countState)
                     {
-                        Console.WriteLine("Error! Nothing typed! Try again: ");
-                        saveChoice = Console.ReadLine()!.ToLower();
-                    }
 
-                    if (saveChoice == "user")
-                    {
-                        Saver userSaver = new UserFolderSaver();
+                        Console.Write("Should the search be logged to the User file or the project file?: ");
+                        string saveChoice = Console.ReadLine()!.ToLower();
 
-                        userSaver.Save(text);
-                    }
-                    else
-                    {
-                        Saver projectSaver = new ProjectFolderSaver();
+                        while (string.IsNullOrWhiteSpace(saveChoice) || (saveChoice != "user" && saveChoice != "project"))
+                        {
+                            Console.WriteLine("Error! Nothing typed! Try again: ");
+                            saveChoice = Console.ReadLine()!.ToLower();
+                        }
 
-                        projectSaver.Save(text);
+                        if (saveChoice == "user")
+                        {
+                            Saver userSaver = new UserFolderSaver();
+
+                            userSaver.Save(text);
+                        }
+                        else
+                        {
+                            Saver projectSaver = new ProjectFolderSaver();
+
+                            projectSaver.Save(text);
+                        }
                     }
                 }
             }
+            else
+            {
+                Console.WriteLine(count.errorMessage);
+            }
 
-            object stringResult = dynamicResult("Hello");
-            object intResult = dynamicResult(66);
-            object boolResult = dynamicResult(true);
+            //object stringResult = dynamicResult("Hello");
+            //object intResult = dynamicResult(66);
+            //object boolResult = dynamicResult(true);
 
-            Console.WriteLine(stringResult);
-            Console.WriteLine(intResult);
-            Console.WriteLine(boolResult);
+            //Console.WriteLine(stringResult);
+            //Console.WriteLine(intResult);
+            //Console.WriteLine(boolResult);
         }
 
-        static int WordCount(string word, string text)
+        static Result<int> WordCount(string word, string text)
         {
             int count = 0;
             int index = 0;
             
             if (string.IsNullOrWhiteSpace(word) || string.IsNullOrWhiteSpace(text))
             {
-                Console.WriteLine("ERROR! Word or Text is Empty! Returning 0 by default.");
-                return 0;
+                return new Result<int>
+                {
+                    Success = false,
+                    errorMessage = "ERROR! word or text is empty!"
+                };
             }
 
             while ((index = text.IndexOf(word, index, StringComparison.OrdinalIgnoreCase)) != -1)
@@ -71,7 +81,11 @@
                 count++;
                 index += word.Length;
             }
-            return count;
+            return new Result<int>
+            {
+                Success = true,
+                value = count
+            };
         }
         static bool? checkCount(int count)
         {
@@ -103,6 +117,13 @@
             {
                 return false;
             }
+        }
+
+        public class Result<T>
+        {
+            public bool Success { get; set; }
+            public T value { get; set; }
+            public string errorMessage { get; set; }
         }
     }
 }
