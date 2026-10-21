@@ -30,6 +30,14 @@
                     projectSaver.Save(text);
                 }
             }
+
+            object stringResult = dynamicResult("Hello");
+            object intResult = dynamicResult(66);
+            object boolResult = dynamicResult(true);
+
+            Console.WriteLine(stringResult);
+            Console.WriteLine(intResult);
+            Console.WriteLine(boolResult);
         }
 
         static int WordCount(string word, string text)
@@ -63,6 +71,22 @@
             else
             {
                 return true;
+            }
+        }
+
+        static object dynamicResult(object input)
+        {
+            if (input is string text)
+            {
+                return "Text recieved as: " + text;
+            }
+            else if (input is int number)
+            {
+                return 100 + number;
+            }
+            else
+            {
+                return false;
             }
         }
     }
