@@ -21,13 +21,28 @@
                 Console.WriteLine($"The word ‘{searchWord}’ is found {count} times.");
                 if ((bool)countState)
                 {
-                    Saver userSaver = new UserFolderSaver();
 
-                    userSaver.Save(text);
+                    Console.Write("Should the search be logged to the User file or the project file?: ");
+                    string saveChoice = Console.ReadLine()!.ToLower();
+                    
+                    while (string.IsNullOrWhiteSpace(saveChoice) || (saveChoice != "user" && saveChoice != "project")) 
+                    {
+                        Console.WriteLine("Error! Nothing typed! Try again: ");
+                        saveChoice = Console.ReadLine()!.ToLower();
+                    }
 
-                    Saver projectSaver = new ProjectFolderSaver();
+                    if (saveChoice == "user")
+                    {
+                        Saver userSaver = new UserFolderSaver();
 
-                    projectSaver.Save(text);
+                        userSaver.Save(text);
+                    }
+                    else
+                    {
+                        Saver projectSaver = new ProjectFolderSaver();
+
+                        projectSaver.Save(text);
+                    }
                 }
             }
 
