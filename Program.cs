@@ -5,11 +5,11 @@
         static void Main(string[] args)
         {
             Console.Write("Hvilket ord skal der søges efter: ");
-            var soegeWord = Console.ReadLine();
+            var soegeOrd = Console.ReadLine();
             Console.Write("Hvilket tekst skal der søges i: ");
             string hoestakTekst = Console.ReadLine();
 
-            int antalForekomster = WordCount(soegeWord, hoestakTekst);
+            int antalForekomster = WordCount(soegeOrd, hoestakTekst);
             bool? countState = checkCount(antalForekomster);
             if (countState == null)
             {
@@ -17,7 +17,7 @@
             }
             else
             {
-                Console.WriteLine($"Ordet ‘{soegeWord}’ forekommer {antalForekomster} gange.");
+                Console.WriteLine($"Ordet ‘{soegeOrd}’ forekommer {antalForekomster} gange.");
                 if ((bool)countState)
                 {
                     //// Source - https://stackoverflow.com/a/19329696
@@ -29,13 +29,16 @@
                     //string path = Directory.GetParent(System.Reflection.Assembly.GetExecutingAssembly().Location).FullName;
                     //string fileName = Path.Combine(path, @"..\..\..\typedemo_02.txt");
 
-                    //System.IO.File.WriteAllText(fileName, soegeWord);
+                    //System.IO.File.WriteAllText(fileName, soegeOrd);
 
                     //Saver saver = new Saver(@"..\..\..\typedemo_02.txt");
 
                     Saver saver = new UserFolderSaver();
-                    //Saver saver = new ProjectFolderSaver();
-                    saver.Save(soegeWord);
+                    saver.Save(soegeOrd);
+
+                    saver = new ProjectFolderSaver();
+                    saver.Save(soegeOrd);
+
 
                 }
             }
