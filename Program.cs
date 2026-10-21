@@ -121,9 +121,9 @@
 
         public class Result<T>
         {
-            public bool Success { get; set; }
-            public T value { get; set; }
-            public string errorMessage { get; set; }
+            public bool Success { get; set; } = false;
+            public T ?value { get; set; }
+            public string errorMessage { get; set; } = "";
         }
     }
 }
