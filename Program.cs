@@ -4,54 +4,49 @@
     {
         static void Main(string[] args)
         {
-            Console.Write("Hvilket ord skal der søges efter: ");
-            var soegeWord = Console.ReadLine()!;
+            Console.Write("What word should be searched for: ");
+            var searchWord = Console.ReadLine();
 
-            Console.Write("Hvilket tekst skal der søges i: ");
-            string hoestakTekst = Console.ReadLine()!;
+            Console.Write("What text should be searched in: ");
+            string text = Console.ReadLine()!;
 
-            int antalForekomster = WordCount(soegeWord, hoestakTekst);
-            bool? countState = checkCount(antalForekomster);
+            int count = WordCount(searchWord, text);
+            bool? countState = checkCount(count);
             if (countState == null)
             {
-                Console.WriteLine("Det søgte ord findes ikke i den angivne tekst.");
+                Console.WriteLine("The searched word doesn't exist in the given text.");
             }
             else
             {
-                Console.WriteLine($"Ordet ‘{soegeWord}’ forekommer {antalForekomster} gange.");
+                Console.WriteLine($"The word ‘{searchWord}’ is found {count} times.");
                 if ((bool)countState)
                 {
-                    //// Source - https://stackoverflow.com/a/19329696
-                    //// Posted by xxbbcc, modified by community. See post 'Timeline' for change history
-                    //// Retrieved 2026-10-18, License - CC BY-SA 3.0
-
-                    ////string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                    ////string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
-                    //string path = Directory.GetParent(System.Reflection.Assembly.GetExecutingAssembly().Location).FullName;
-                    //string fileName = Path.Combine(path, @"..\..\..\typedemo_02.txt");
-
-                    //System.IO.File.WriteAllText(fileName, soegeWord);
-
                     Saver userSaver = new UserFolderSaver();
 
-                    userSaver.Save(hoestakTekst);
+                    userSaver.Save(text);
 
                     Saver projectSaver = new ProjectFolderSaver();
 
-                    projectSaver.Save(hoestakTekst);
+                    projectSaver.Save(text);
                 }
             }
         }
 
-        static int WordCount(string ord, string tekst)
+        static int WordCount(string word, string text)
         {
             int count = 0;
             int index = 0;
+            
+            if (string.IsNullOrWhiteSpace(word) || string.IsNullOrWhiteSpace(text))
+            {
+                Console.WriteLine("ERROR! Word or Text is Empty! Returning 0 by default.");
+                return 0;
+            }
 
-            while ((index = tekst.IndexOf(ord, index, StringComparison.OrdinalIgnoreCase)) != -1)
+            while ((index = text.IndexOf(word, index, StringComparison.OrdinalIgnoreCase)) != -1)
             {
                 count++;
-                index += ord.Length;
+                index += word.Length;
             }
             return count;
         }
