@@ -20,16 +20,22 @@
                 Console.WriteLine($"Ordet ‘{soegeWord}’ forekommer {antalForekomster} gange.");
                 if ((bool)countState)
                 {
-                    // Source - https://stackoverflow.com/a/19329696
-                    // Posted by xxbbcc, modified by community. See post 'Timeline' for change history
-                    // Retrieved 2026-10-18, License - CC BY-SA 3.0
+                    //// Source - https://stackoverflow.com/a/19329696
+                    //// Posted by xxbbcc, modified by community. See post 'Timeline' for change history
+                    //// Retrieved 2026-10-18, License - CC BY-SA 3.0
 
-                    //string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                    //string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
-                    string path = Directory.GetParent(System.Reflection.Assembly.GetExecutingAssembly().Location).FullName;
-                    string fileName = Path.Combine(path, @"..\..\..\typedemo_02.txt");
+                    ////string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                    ////string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
+                    //string path = Directory.GetParent(System.Reflection.Assembly.GetExecutingAssembly().Location).FullName;
+                    //string fileName = Path.Combine(path, @"..\..\..\typedemo_02.txt");
 
-                    System.IO.File.WriteAllText(fileName, soegeWord);
+                    //System.IO.File.WriteAllText(fileName, soegeWord);
+
+                    //Saver saver = new Saver(@"..\..\..\typedemo_02.txt");
+
+                    Saver saver = new UserFolderSaver();
+                    //Saver saver = new ProjectFolderSaver();
+                    saver.Save(soegeWord);
 
                 }
             }
