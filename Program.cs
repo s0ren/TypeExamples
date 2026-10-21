@@ -1,4 +1,6 @@
-﻿namespace ConsoleApp_typedemo_01
+﻿using TypeExamples;
+
+namespace ConsoleApp_typedemo_01
 {
     internal class Program
     {
@@ -20,17 +22,32 @@
                 Console.WriteLine($"Ordet ‘{soegeWord}’ forekommer {antalForekomster} gange.");
                 if ((bool)countState)
                 {
-                    // Source - https://stackoverflow.com/a/19329696
-                    // Posted by xxbbcc, modified by community. See post 'Timeline' for change history
-                    // Retrieved 2026-10-18, License - CC BY-SA 3.0
+                    //// Source - https://stackoverflow.com/a/19329696
+                    //// Posted by xxbbcc, modified by community. See post 'Timeline' for change history
+                    //// Retrieved 2026-10-18, License - CC BY-SA 3.0
 
-                    //string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                    //string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
-                    string path = Directory.GetParent(System.Reflection.Assembly.GetExecutingAssembly().Location).FullName;
-                    string fileName = Path.Combine(path, @"..\..\..\typedemo_02.txt");
+                    ////string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                    ////string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
+                    //string path = Directory.GetParent(System.Reflection.Assembly.GetExecutingAssembly().Location).FullName;
+                    //string fileName = Path.Combine(path, @"..\..\..\typedemo_02.txt");
 
-                    System.IO.File.WriteAllText(fileName, soegeWord);
+                    //System.IO.File.WriteAllText(fileName, soegeWord);
 
+                    // can make it nameable
+                    string fileName = "typedemo_02";
+
+                    Saver saver = new Saver(hoestakTekst, fileName);
+
+                    Console.Write("Press 1 to save to Solution folder\nPress any key to save to dokuments folder");
+                    if (ConsoleKey.D1 == Console.ReadKey(true).Key)
+                    { 
+                    saver.Save(@"..\..\..\" + fileName + ".txt");
+                    }
+                    else
+                    {
+                        // if no arg sends to dokuments folder
+                        saver.Save();
+                    }
                 }
             }
         }
