@@ -53,13 +53,13 @@
                 Console.WriteLine(count.errorMessage);
             }
 
-            //object stringResult = dynamicResult("Hello");
-            //object intResult = dynamicResult(66);
-            //object boolResult = dynamicResult(true);
+            object stringResult = dynamicResult("Hello");
+            object intResult = dynamicResult(66);
+            object boolResult = dynamicResult(true);
 
-            //Console.WriteLine(stringResult);
-            //Console.WriteLine(intResult);
-            //Console.WriteLine(boolResult);
+            Console.WriteLine(stringResult);
+            Console.WriteLine(intResult);
+            Console.WriteLine(boolResult);
         }
 
         static Result<int> WordCount(string word, string text)
